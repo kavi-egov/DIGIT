@@ -15,7 +15,7 @@ info:
 x-module: BPA
 x-common-path: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml'
 paths:
-  /request/_search:
+  /requests/_search:
     post:
       summary: Get service requests
       description: |
@@ -70,62 +70,7 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
       tags:
       - Service Request
-  /request/_count:
-    post:
-      summary: Get count of records
-      description: |
-        Returns the count of records matching the search criteris.
-      parameters:
-      - $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/parameters/tenantId'
-      - name: serviceCode
-        in: query
-        description: Allows search for service type - comma separated list
-        schema:
-          type: array
-          items:
-            type: string
-            maxItems: 5
-      - name: ids
-        in: query
-        description: Search by list of UUID
-        schema:
-          type: array
-          items:
-            type: string
-            maxItems: 10
-      - name: mobileNo
-        in: query
-        description: Search by mobile number of service requester
-        schema:
-          type: string
-      - name: serviceRequestId
-        in: query
-        description: Search by serviceRequestId of the complaint
-        schema:
-          type: string
-      - name: applicationStatus
-        in: query
-        description: Search by list of Application Status
-        schema:
-          type: array
-          items:
-            type: string
-      responses:
-        '202':
-          description: Successful response sorted by reverse chrnological order of creation
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/ServiceResponse'
-        '400':
-          description: Invalid input.
-          content:
-            '*/*':
-              schema:
-                $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
-      tags:
-      - Service Request
-  /request/_create:
+  /requests/_create:
     post:
       summary: Create service requests
       description: Create new service requests - supports batch -  please note that in case of errors entire batch is rejected
@@ -151,7 +96,7 @@ paths:
             '*/*':
               schema:
                 $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/ErrorRes'
-  /request/_update:
+  /requests/_update:
     post:
       summary: Update service requests
       description: Updates service request
@@ -323,7 +268,7 @@ components:
         requestInfo:
           $ref: 'https://raw.githubusercontent.com/egovernments/municipal-services/common-contract/docs/common-contract-v2-0-0.yml#/components/schemas/RequestHeader'
         pgrEntity:
-          $ref: '#/components/schemas/ServiceWrapper'
+          $ref: '#/components/schemas/PGREntity'
       required:
       - RequestInfo
       - pgrEntity
@@ -336,7 +281,7 @@ components:
         PGREntities:
           type: array
           items:
-            $ref: '#/components/schemas/ServiceWrapper'
+            $ref: '#/components/schemas/PGREntity'
       required:
       - ResponseInfo
       - pgrEntity
